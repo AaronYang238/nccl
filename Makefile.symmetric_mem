@@ -1,0 +1,21 @@
+CUDA_PATH ?= /usr/local/cuda
+NVCC = $(CUDA_PATH)/bin/nvcc
+CXXFLAGS = -std=c++14 -O2
+NVCCFLAGS = $(CXXFLAGS) -arch=sm_70
+
+TARGETS = symmetric_mem_demo symmetric_mem_p2p_demo
+
+all: $(TARGETS)
+
+symmetric_mem_demo: symmetric_mem_demo.cu
+	$(NVCC) $(NVCCFLAGS) -o $@ $<
+	@echo "✓ Built $@"
+
+symmetric_mem_p2p_demo: symmetric_mem_p2p_demo.cu
+	$(NVCC) $(NVCCFLAGS) -o $@ $<
+	@echo "✓ Built $@"
+
+clean:
+	rm -f $(TARGETS) *.o
+
+.PHONY: all clean
